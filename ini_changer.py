@@ -2,7 +2,7 @@ import configparser
 import re
 import json
 
-# paths = {
+# test_path = {
 #     "czech": "\\\\192.168.0.100\\upload\\_AKTUALIZACJE\\instalki\\CAD 3w1\\AKTUALNA\\CZ\\Setup.ini",
 #     "deutsch": "\\\\192.168.0.100\\upload\\_AKTUALIZACJE\\instalki\\CAD 3w1\\AKTUALNA\\DE\\Setup.ini",
 #     "eng": "\\\\192.168.0.100\\upload\\_AKTUALIZACJE\\instalki\\CAD 3w1\\AKTUALNA\\EN\\Setup.ini",
@@ -17,12 +17,19 @@ import json
 
 def data_check():
     data_file = "./paths_data.json"
+    test_path = {
+        "test": "\\\\192.168.5.666\\katalog\\katalog\\Setup.ini",
+        "test2": "\\\\192.168.5.666\\katalog\\katalog\\Setup.ini",
+    }
     try:
         with open(data_file, "r") as f:
             paths = json.load(f)
-            print(paths)
     except FileNotFoundError:
-        input("dodaj plik 'paths_data.json' ze ścieżkami")
+        with open(data_file, "w") as f:
+            json.dump(test_path, f)
+        print(
+            "Został dodany plik 'paths_data.json' w katalogu programu - proszę uzupełnić ścieżki"
+        )
         exit()
     return paths
 
