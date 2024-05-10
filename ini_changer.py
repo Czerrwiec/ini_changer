@@ -43,10 +43,29 @@ def pareser_show(file):
     print()
 
 
-def getting_input(parameter_name, rest_text):
+def validation_checker(par_name, choice, input_v):
+    if choice == "1":
+        while True:
+            x = re.search(r"([0-9.]){14}", input_v)
+            if x == None or len(input_v) != 14:
+                print("Wpisz prawidłową wartość.")
+                input_v = input(f"{par_name} version: ").replace(" ", "")
+            else:
+                return input_v
+    elif choice == "2":
+        while True:
+            x = re.search(r"([0-9.]){5}", input_v)
+            if x == None or len(input_v) != 5:
+                print("Wpisz prawidłową wartość.")
+                input_v = input(f"{par_name} version: ").replace(" ", "")
+            else:
+                return input_v
+
+
+def getting_input(parameter_name, rest_text, choiced_option):
     print(f"Wpisz wersję{parameter_name}, {rest_text}")
     x = input(f"{parameter_name} version: ").replace(" ", "")
-    return x
+    return validation_checker(parameter_name, choiced_option, x)
 
 
 def executive_function(input, choosen_o):
@@ -65,24 +84,31 @@ while True:
     print("[1] dot4CAD")
     print("[2] wersja")
     print("[3] pokaż obecne wartości w Setup.ini")
+    print("[4] zakończ")
     print()
     choice = input()
 
     if choice == "1":
         executive_function(
-            getting_input(" dot4CADa", "odpowiedni format to: xx.x.xxxx.xxxx"), choice
+            getting_input(" dot4CADa", "odpowiedni format to: xx.x.xxxx.xxxx", choice),
+            choice,
         )
         print()
         continue
 
     elif choice == "2":
-        executive_function(getting_input("", "odpowiedni format to: x.x.x"), choice)
+        executive_function(
+            getting_input("", "odpowiedni format to: x.x.x", choice), choice
+        )
         print()
         continue
 
     elif choice == "3":
         executive_function("", choice)
         continue
+
+    elif choice == "4":
+        break
 
     else:
         continue
