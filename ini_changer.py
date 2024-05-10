@@ -1,0 +1,106 @@
+import configparser
+import re
+
+# paths = {
+#     "czech": "\\\\192.168.0.100\\upload\\_AKTUALIZACJE\\instalki\\CAD 3w1\\AKTUALNA\\CZ\\Setup.ini",
+#     "deutsch": "\\\\192.168.0.100\\upload\\_AKTUALIZACJE\\instalki\\CAD 3w1\\AKTUALNA\\DE\\Setup.ini",
+#     "eng": "\\\\192.168.0.100\\upload\\_AKTUALIZACJE\\instalki\\CAD 3w1\\AKTUALNA\\EN\\Setup.ini",
+#     "spain": "\\\\192.168.0.100\\upload\\_AKTUALIZACJE\\instalki\\CAD 3w1\\AKTUALNA\\ES\\Setup.ini",
+#     "hun": "\\\\192.168.0.100\\upload\\_AKTUALIZACJE\\instalki\\CAD 3w1\\AKTUALNA\\HU\\Setup.ini",
+#     "pol": "\\\\192.168.0.100\\upload\\_AKTUALIZACJE\\instalki\\CAD 3w1\\AKTUALNA\\PL\\Setup.ini",
+#     "rus": "\\\\192.168.0.100\\upload\\_AKTUALIZACJE\\instalki\\CAD 3w1\\AKTUALNA\\RU\\Setup.ini",
+#     "slov": "\\\\192.168.0.100\\upload\\_AKTUALIZACJE\\instalki\\CAD 3w1\\AKTUALNA\\SK\\Setup.ini",
+#     "ukr": "\\\\192.168.0.100\\upload\\_AKTUALIZACJE\\instalki\\CAD 3w1\\AKTUALNA\\UK\\Setup.ini",
+# }
+
+paths = {"test": "C:\\Users\\Czerwiec\\Desktop\\setup ini test\\Setup.ini"}
+
+
+def parser_function(file, version, choice):
+    config = configparser.ConfigParser(allow_no_value=True)
+    config.optionxform = str
+    config.read(file)
+    if choice == "1":
+        config.set("ICADVERDEF", "DOT4VER", version)
+    elif choice == "2":
+        config["NAME"] = {"v. " + version: None}
+    elif choice == "3":
+        pareser_show(file)
+
+    with open(file, "w") as saved_file:
+        config.write(saved_file, space_around_delimiters=False)
+
+
+def pareser_show(file):
+    config = configparser.ConfigParser(allow_no_value=True)
+    config.optionxform = str
+    config.read(file)
+    var_1 = config.items("NAME")[0][0]
+    var_2 = config.items("ICADVERDEF")[0][1]
+    print(f"ścieżka: {file}")
+    print(f"wersja programu: {var_1}")
+    print(f"wersja dot4CADa: {var_2}")
+    print()
+
+
+def getting_input(parameter_name, rest_text):
+    print(f"Wpisz wersję{parameter_name}, {rest_text}")
+    x = input(f"{parameter_name} version: ").replace(" ", "")
+    return x
+
+
+def executive_function(input, choosen_o):
+    for key in paths.keys():
+        parser_function(paths[key], input, choosen_o)
+        if choosen_o == "1":
+            print(paths[key] + " - plik zaktualizowany, wersja dot4Cada: " + input)
+        elif choosen_o == "2":
+            print(paths[key] + " - plik zaktualizowany, wersja programu: " + input)
+        elif choosen_o == "2":
+            pareser_show(key)
+
+
+while True:
+    print("Wybierz parametr do zmiany:")
+    print("[1] dot4CAD")
+    print("[2] wersja")
+    print("[3] pokaż obecne wartości w Setup.ini")
+    print()
+    choice = input()
+
+    if choice == "1":
+        executive_function(
+            getting_input(" dot4CADa", "odpowiedni format to: xx.x.xxxx.xxxx"), choice
+        )
+        print()
+        continue
+
+    elif choice == "2":
+        executive_function(getting_input("", "odpowiedni format to: x.x.x"), choice)
+        print()
+        continue
+
+    elif choice == "3":
+        executive_function("", choice)
+        continue
+
+    else:
+        continue
+
+
+# print("Wpisz wersję dot4CADA, odpowiedni format to xx.x.xxxx.xxxx")
+# icad_version = input("dot4CAD version: ").replace(" ", "")
+
+# while True:
+#     x = re.search(r"([0-9.]){14}", icad_version)
+#     if x == None:
+#         print("Wpisz prawidłową wartość.")
+#         icad_version = input("dot4CAD version: ").replace(" ", "")
+#     else:
+#         break
+
+# for key in paths.keys():
+#     parser_function(paths[key], icad_version)
+#     print(paths[key] + " - plik zaktualizowany" + ", wersja dot4CAD: " + icad_version)
+
+# input("Wciśnij ENTER, aby zakończyć.")
