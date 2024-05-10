@@ -1,5 +1,6 @@
 import configparser
 import re
+import json
 
 # paths = {
 #     "czech": "\\\\192.168.0.100\\upload\\_AKTUALIZACJE\\instalki\\CAD 3w1\\AKTUALNA\\CZ\\Setup.ini",
@@ -13,7 +14,15 @@ import re
 #     "ukr": "\\\\192.168.0.100\\upload\\_AKTUALIZACJE\\instalki\\CAD 3w1\\AKTUALNA\\UK\\Setup.ini",
 # }
 
-paths = {"test": "C:\\Users\\Czerwiec\\Desktop\\setup ini test\\Setup.ini"}
+data_file = "./paths_data.json"
+paths = {}
+
+try:
+    with open(data_file, "r") as f:
+        paths = json.load(f)
+except FileNotFoundError:
+    input("dodaj plik 'paths_data.json' ze ścieżkami")
+    exit()
 
 
 def parser_function(file, version, choice):
@@ -112,3 +121,4 @@ while True:
 
     else:
         continue
+
