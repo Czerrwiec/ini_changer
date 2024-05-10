@@ -113,20 +113,3 @@ while True:
     else:
         continue
 
-
-# print("Wpisz wersję dot4CADA, odpowiedni format to xx.x.xxxx.xxxx")
-# icad_version = input("dot4CAD version: ").replace(" ", "")
-
-# while True:
-#     x = re.search(r"([0-9.]){14}", icad_version)
-#     if x == None:
-#         print("Wpisz prawidłową wartość.")
-#         icad_version = input("dot4CAD version: ").replace(" ", "")
-#     else:
-#         break
-
-# for key in paths.keys():
-#     parser_function(paths[key], icad_version)
-#     print(paths[key] + " - plik zaktualizowany" + ", wersja dot4CAD: " + icad_version)
-
-# input("Wciśnij ENTER, aby zakończyć.")
