@@ -14,15 +14,17 @@ import json
 #     "ukr": "\\\\192.168.0.100\\upload\\_AKTUALIZACJE\\instalki\\CAD 3w1\\AKTUALNA\\UK\\Setup.ini",
 # }
 
-data_file = "./paths_data.json"
-paths = {}
 
-try:
-    with open(data_file, "r") as f:
-        paths = json.load(f)
-except FileNotFoundError:
-    input("dodaj plik 'paths_data.json' ze ścieżkami")
-    exit()
+def data_check():
+    data_file = "./paths_data.json"
+    try:
+        with open(data_file, "r") as f:
+            paths = json.load(f)
+            print(paths)
+    except FileNotFoundError:
+        input("dodaj plik 'paths_data.json' ze ścieżkami")
+        exit()
+    return paths
 
 
 def parser_function(file, version, choice):
@@ -88,6 +90,7 @@ def executive_function(input, choosen_o):
             pareser_show(key)
 
 
+paths = data_check()
 while True:
     print("Wybierz parametr do zmiany:")
     print("[1] dot4CAD")
@@ -121,4 +124,3 @@ while True:
 
     else:
         continue
-
