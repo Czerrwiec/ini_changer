@@ -35,28 +35,25 @@ def data_check():
     return paths
 
 
-def parser_function(file, version, choice):
-    config = configparser.ConfigParser(allow_no_value=True)
-    config.optionxform = str
-    config.read(file)
+def parser_function(file, version, choice, parser):
+    parser.optionxform = str
+    parser.read(file)
     if choice == "1":
-        config.set("ICADVERDEF", "DOT4VER", version)
-        with open(file, "w") as saved_file:
-            config.write(saved_file, space_around_delimiters=False)
+        parser["ICADVERDEF"] = {"DOT4VER": version}
+        save_file(file, parser)
     elif choice == "2":
-        config["NAME"] = {"v. " + version: None}
-        with open(file, "w") as saved_file:
-            config.write(saved_file, space_around_delimiters=False)
+        parser["NAME"] = {"v. " + version: None}
+        save_file(file, parser)
     elif choice == "3":
-        pareser_show(file)
-
-    
+        parser_show(file, parser)
 
 
-def pareser_show(file):
-    config = configparser.ConfigParser(allow_no_value=True)
-    config.optionxform = str
-    config.read(file)
+def save_file(file, parser):
+    with open(file, "w") as saved_file:
+        parser.write(saved_file, space_around_delimiters=False)
+
+
+def parser_show(file, config):
     var_1 = config.items("NAME")[0][0]
     var_2 = config.items("ICADVERDEF")[0][1]
     print(f"ścieżka: {file}")
@@ -92,13 +89,13 @@ def getting_input(parameter_name, rest_text, choiced_option):
 
 def executive_function(input, choosen_o):
     for key in paths.keys():
-        parser_function(paths[key], input, choosen_o)
+        parser_function(
+            paths[key], input, choosen_o, configparser.ConfigParser(allow_no_value=True)
+        )
         if choosen_o == "1":
             print(paths[key] + " - plik zaktualizowany, wersja dot4Cada: " + input)
         elif choosen_o == "2":
             print(paths[key] + " - plik zaktualizowany, wersja programu: " + input)
-        elif choosen_o == "2":
-            pareser_show(key)
 
 
 paths = data_check()
@@ -129,7 +126,9 @@ while True:
     elif choice == "3":
         executive_function("", choice)
         continue
+
     elif choice == "4":
         break
+
     else:
         continue
