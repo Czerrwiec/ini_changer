@@ -30,6 +30,7 @@ def data_check():
         print(
             "Został dodany plik 'paths_data.json' w katalogu programu - proszę uzupełnić ścieżki"
         )
+        input()
         exit()
     return paths
 
@@ -40,13 +41,16 @@ def parser_function(file, version, choice):
     config.read(file)
     if choice == "1":
         config.set("ICADVERDEF", "DOT4VER", version)
+        with open(file, "w") as saved_file:
+            config.write(saved_file, space_around_delimiters=False)
     elif choice == "2":
         config["NAME"] = {"v. " + version: None}
+        with open(file, "w") as saved_file:
+            config.write(saved_file, space_around_delimiters=False)
     elif choice == "3":
         pareser_show(file)
 
-    with open(file, "w") as saved_file:
-        config.write(saved_file, space_around_delimiters=False)
+    
 
 
 def pareser_show(file):
@@ -125,9 +129,7 @@ while True:
     elif choice == "3":
         executive_function("", choice)
         continue
-
     elif choice == "4":
         break
-
     else:
         continue
