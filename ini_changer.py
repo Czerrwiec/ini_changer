@@ -65,7 +65,7 @@ def parser_show(file, config):
 def validation_checker(par_name, choice, input_v):
     if choice == "1":
         while True:
-            x = re.search(r"([0-9.]){14}", input_v)
+            x = re.search(r"^\d+(?:\.\d+){3}$", input_v)
             if x == None or len(input_v) != 14:
                 print("Wpisz prawidłową wartość.")
                 input_v = input(f"{par_name} version: ").replace(" ", "")
@@ -73,7 +73,7 @@ def validation_checker(par_name, choice, input_v):
                 return input_v
     elif choice == "2":
         while True:
-            x = re.search(r"([0-9.]){5}", input_v)
+            x = re.search(r"^\d+(?:\.\d+){2}$", input_v)
             if x == None or len(input_v) != 5:
                 print("Wpisz prawidłową wartość.")
                 input_v = input(f"{par_name} version: ").replace(" ", "")
