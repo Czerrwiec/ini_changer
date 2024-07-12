@@ -74,7 +74,7 @@ def validation_checker(par_name, choice, input_v):
     elif choice == "2":
         while True:
             x = re.search(r"^\d+(?:\.\d+){2}$", input_v)
-            if x == None or len(input_v) != 5:
+            if x == None or len(input_v) < 5 or len(input_v) > 6:
                 print("Wpisz prawidłową wartość.")
                 input_v = input(f"{par_name} version: ").replace(" ", "")
             else:
